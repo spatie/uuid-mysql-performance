@@ -2,6 +2,8 @@
 
 namespace Spatie\Benchmark;
 
+use Doctrine\DBAL\Logging\DebugStack;
+
 class NormalId extends AbstractBenchmark
 {
     public function name(): string
@@ -56,18 +58,6 @@ SQL;
             $queries[] = "SELECT * FROM `normal_id` WHERE `id` = {$id};";
         }
 
-        $result = [];
-
-        foreach ($queries as $query) {
-            $start = microtime(true);
-
-            $this->connection->fetchAll($query);
-
-            $stop = microtime(true);
-
-            $result[] = $stop - $start;
-        }
-
-        return (array_sum($result) / count($result));
+        return $this->runQueryBenchmark($queries);
     }
 }

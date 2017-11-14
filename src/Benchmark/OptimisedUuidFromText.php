@@ -35,18 +35,6 @@ WHERE `optimised_uuid_binary` = UNHEX('$uuidWithoutDash');
 SQL;
         }
 
-        $result = [];
-
-        foreach ($queries as $query) {
-            $start = microtime(true);
-
-            $this->connection->fetchArray($query);
-
-            $stop = microtime(true);
-
-            $result[] = $stop - $start;
-        }
-
-        return (array_sum($result) / count($result));
+        return $this->runQueryBenchmark($queries);
     }
 }

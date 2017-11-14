@@ -70,18 +70,6 @@ SQL;
             $queries[] = "SELECT * FROM `normal_uuid` WHERE `uuid` = UNHEX(REPLACE('$uuid', '-', ''));";
         }
 
-        $result = [];
-
-        foreach ($queries as $query) {
-            $start = microtime(true);
-
-            $this->connection->fetchAll($query);
-
-            $stop = microtime(true);
-
-            $result[] = $stop - $start;
-        }
-
-        return (array_sum($result) / count($result));
+        return $this->runQueryBenchmark($queries);
     }
 }
