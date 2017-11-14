@@ -1,0 +1,16 @@
+{
+    "require": {
+        "ramsey/uuid": "^3.7",
+        "doctrine/dbal": "^2.6",
+        "symfony/console": "^3.3",
+        "symfony/finder": "^3.3",
+        "larapack/dd": "^1.1",
+        "vlucas/phpdotenv": "^2.4",
+        "fzaninotto/faker": "^1.7"
+    },
+    "autoload": {
+        "psr-4": {
+            "Spatie\\": "src/"
+        }
+    }
+}
