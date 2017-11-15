@@ -32,7 +32,7 @@ This is the baseline benchmark, executing `SELECT` queries based on a normal `AU
 ### The `Binary UUID` benchmark
 
 This benchmark will run `SELECT` queries on a table with a binary encoded `UUID` field as its primary key. 
-It's input is a normal UUID which is encoded in the query to its binary variant.
+It's input is a normal `UUID` which is encoded in the query to its binary variant.
 
 This benchmark seems to be the closest in performance to the `Normal ID` benchmark, with less then 500k records in a table.
 
@@ -45,7 +45,7 @@ This benchmark seems to be the closest in performance to the `Normal ID` benchma
     Avarage of 0.08929ms over 10000 iterations.
 ```
 
-*- Results when querying a small amount of records (~10k).*
+*Results when querying a small amount of records (~10k).*
 
 ### The `Optimised UUID` and `Optimised UUID from text`
 
@@ -67,7 +67,7 @@ Comparing results, there's no difference between the two.
     Avarage of 0.109521ms over 10000 iterations.
 ```
 
-*- The difference between `Binary UUID` and `Optimised UUID` when querying a big dataset of ~500k records.*
+*The difference between `Binary UUID` and `Optimised UUID` when querying a big dataset of ~500k records.*
 
 ### The `Textual UUID` benchmark
 
@@ -87,6 +87,7 @@ You'll immediately notice that this benchmark is much slower than the others, ev
     Avarage of 96.298254ms over 100 iterations.
 ```
 
+*VARCHAR `UUID`s are slow.*
 
 ## Conclusions
 
