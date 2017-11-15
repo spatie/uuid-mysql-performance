@@ -50,6 +50,8 @@ CREATE TABLE `optimised_uuid` (
 
     PRIMARY KEY (`optimised_uuid_binary`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE `optimised_uuid` ADD unique(`optimised_uuid_binary`);
 SQL
         );
     }
@@ -58,7 +60,7 @@ SQL
     {
         $queries = [];
 
-        for ($i = 0; $i < $this->seederAmount; $i++) {
+        for ($i = 0; $i < $this->recordsInTable; $i++) {
             $uuid = Uuid::uuid1()->toString();
             $uuidWithoutDash = str_replace('-', '', $uuid);
 
@@ -81,18 +83,17 @@ SQL;
         }
     }
 
-    public function run(): float
+    public function run(): BenchmarkResult
     {
         $queries = [];
         $uuids = $this->connection->fetchAll('SELECT HEX(`optimised_uuid_binary`) AS optimised_uuid_binary FROM `optimised_uuid`');
 
-        for ($i = 1; $i < $this->benchmarkRounds; $i++) {
+        for ($i = 0; $i < $this->benchmarkRounds; $i++) {
             $uuid = $uuids[array_rand($uuids)]['optimised_uuid_binary'];
-            $uuidWithoutDash = str_replace('-', '', $uuid);
 
             $queries[] = <<<SQL
 SELECT * FROM `optimised_uuid` 
-WHERE `optimised_uuid_binary` = UNHEX('$uuidWithoutDash');
+WHERE `optimised_uuid_binary` = UNHEX('$uuid');
 SQL;
         }
 

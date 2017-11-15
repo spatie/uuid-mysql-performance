@@ -29,7 +29,7 @@ SQL
     {
         $queries = [];
 
-        for ($i = 0; $i < $this->seederAmount; $i++) {
+        for ($i = 0; $i < $this->recordsInTable; $i++) {
             $text = $this->randomTexts[array_rand($this->randomTexts)];
 
             $queries[] = <<<SQL
@@ -47,12 +47,12 @@ SQL;
         }
     }
 
-    public function run(): float
+    public function run(): BenchmarkResult
     {
         $queries = [];
         $ids = $this->connection->fetchAll('SELECT `id` FROM `normal_id`');
 
-        for ($i = 1; $i < $this->benchmarkRounds; $i++) {
+        for ($i = 0; $i < $this->benchmarkRounds; $i++) {
             $id = $ids[array_rand($ids)]['id'];
 
             $queries[] = "SELECT * FROM `normal_id` WHERE `id` = {$id};";

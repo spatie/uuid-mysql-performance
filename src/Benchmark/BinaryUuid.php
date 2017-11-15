@@ -4,11 +4,11 @@ namespace Spatie\Benchmark;
 
 use Ramsey\Uuid\Uuid;
 
-class NormalUuid extends AbstractBenchmark
+class BinaryUuid extends AbstractBenchmark
 {
     public function name(): string
     {
-        return 'Normal UUID';
+        return 'Binary UUID';
     }
 
     public function table()
@@ -39,7 +39,7 @@ SQL
     {
         $queries = [];
 
-        for ($i = 0; $i < $this->seederAmount; $i++) {
+        for ($i = 0; $i < $this->recordsInTable; $i++) {
             $uuid = Uuid::uuid1()->toString();
 
             $text = $this->randomTexts[array_rand($this->randomTexts)];
@@ -59,12 +59,12 @@ SQL;
         }
     }
 
-    public function run(): float
+    public function run(): BenchmarkResult
     {
         $queries = [];
         $uuids = $this->connection->fetchAll('SELECT `uuid_text` FROM `normal_uuid`');
 
-        for ($i = 1; $i < $this->benchmarkRounds; $i++) {
+        for ($i = 0; $i < $this->benchmarkRounds; $i++) {
             $uuid = $uuids[array_rand($uuids)]['uuid_text'];
 
             $queries[] = "SELECT * FROM `normal_uuid` WHERE `uuid` = UNHEX(REPLACE('$uuid', '-', ''));";

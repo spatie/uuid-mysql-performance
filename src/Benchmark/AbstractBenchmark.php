@@ -8,7 +8,7 @@ use Faker\Factory;
 
 abstract class AbstractBenchmark
 {
-    protected $seederAmount = 100;
+    protected $recordsInTable = 100;
     protected $flushAmount = 1000;
     protected $benchmarkRounds = 100;
 
@@ -36,9 +36,9 @@ abstract class AbstractBenchmark
 
     abstract public function seed();
 
-    abstract public function run(): float;
+    abstract public function run(): BenchmarkResult;
 
-    protected function runQueryBenchmark(array $queries): float
+    protected function runQueryBenchmark(array $queries): BenchmarkResult
     {
         $stack = new DebugStack();
         $this->connection->getConfiguration()->setSQLLogger($stack);
@@ -53,24 +53,24 @@ abstract class AbstractBenchmark
             $result[] = $stat['executionMS'];
         }
 
-        return (array_sum($result) / count($result));
+        return new BenchmarkResult($result);
     }
 
-    public function setSeederAmount(int $seederAmount): AbstractBenchmark
+    public function withRecordsInTable(int $recordsInTable): AbstractBenchmark
     {
-        $this->seederAmount = $seederAmount;
+        $this->recordsInTable = $recordsInTable;
 
         return $this;
     }
 
-    public function setFlushAmount(int $flushAmount): AbstractBenchmark
+    public function withFlushAmount(int $flushAmount): AbstractBenchmark
     {
         $this->flushAmount = $flushAmount;
 
         return $this;
     }
 
-    public function setBenchmarkRounds(int $benchmarkRounds): AbstractBenchmark
+    public function withBenchmarkRounds(int $benchmarkRounds): AbstractBenchmark
     {
         $this->benchmarkRounds = $benchmarkRounds;
 

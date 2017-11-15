@@ -20,12 +20,12 @@ class OptimisedUuidFromText extends AbstractBenchmark
         return;
     }
 
-    public function run(): float
+    public function run(): BenchmarkResult
     {
         $queries = [];
         $uuids = $this->connection->fetchAll('SELECT `generated_optimised_uuid_text` FROM `optimised_uuid`');
 
-        for ($i = 1; $i < $this->benchmarkRounds; $i++) {
+        for ($i = 0; $i < $this->benchmarkRounds; $i++) {
             $uuidAsText = $uuids[array_rand($uuids)]['generated_optimised_uuid_text'];
             $uuidWithoutDash = str_replace('-', '', $uuidAsText);
 

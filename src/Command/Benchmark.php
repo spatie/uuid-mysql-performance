@@ -4,9 +4,10 @@ namespace Spatie\Command;
 
 use Doctrine\DBAL\Connection;
 use Spatie\Benchmark\NormalId;
-use Spatie\Benchmark\NormalUuid;
+use Spatie\Benchmark\BinaryUuid;
 use Spatie\Benchmark\OptimisedUuid;
 use Spatie\Benchmark\OptimisedUuidFromText;
+use Spatie\Benchmark\TextualUuid;
 use Spatie\DatabaseCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -24,16 +25,19 @@ class Benchmark extends DatabaseCommand
     {
         $benchmarks = [
             new NormalId($this->connection),
-            new NormalUuid($this->connection),
+            new BinaryUuid($this->connection),
             new OptimisedUuid($this->connection),
             new OptimisedUuidFromText($this->connection),
+            (new TextualUuid($this->connection))
+                ->withBenchmarkRoundsTextualUuid(getenv('BENCHMARK_ROUNDS_TEXTUAL_UUID')),
         ];
 
         /** @var \Spatie\Benchmark\AbstractBenchmark $benchmark */
         foreach ($benchmarks as $benchmark) {
             $benchmark
-                ->setSeederAmount(75000)
-                ->setBenchmarkRounds(10000);
+                ->withRecordsInTable(getenv('RECORDS_IN_TABLE'))
+                ->withBenchmarkRounds(getenv('BENCHMARK_ROUNDS'))
+                ->withFlushAmount(getenv('FLUSH_QUERY_AMOUNT'));
         }
 
         if ($input->getOption('table')) {
@@ -54,12 +58,14 @@ class Benchmark extends DatabaseCommand
             }
         }
 
-        $output->writeln("<fg=green>Running benchmarks</>");
+        $output->writeln("\n<fg=green>Running benchmarks</>");
 
         foreach ($benchmarks as $benchmark) {
-            $result = $benchmark->run() * 10000;
+            $output->writeln("\t- {$benchmark->name()}: ");
 
-            $output->writeln("\t- {$benchmark->name()}: \n\t\t{$result}");
+            $result = $benchmark->run();
+
+            $output->writeln("\t\tAvarage of {$result->getAverageInMilliSeconds()}ms over {$result->getIterations()} iterations.");
         }
 
         $output->writeln("\n<fg=green>Done</>");
