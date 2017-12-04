@@ -38,11 +38,11 @@ This benchmark seems to be the closest in performance to the `Normal ID` benchma
 
 ```
 - Normal ID:
-    Avarage of 0.056232ms over 10000 iterations.
+    Average of 0.056232ms over 10000 iterations.
 - Binary UUID:
-    Avarage of 0.078953ms over 10000 iterations.
+    Average of 0.078953ms over 10000 iterations.
 - Optimised UUID:
-    Avarage of 0.08929ms over 10000 iterations.
+    Average of 0.08929ms over 10000 iterations.
 ```
 
 *Results when querying a small amount of records (~10k).*
@@ -60,11 +60,11 @@ Comparing results, there's no difference between the two.
 
 ```
 - Binary UUID:
-    Avarage of 0.192199ms over 10000 iterations.
+    Average of 0.192199ms over 10000 iterations.
 - Optimised UUID:
-    Avarage of 0.120646ms over 10000 iterations.
+    Average of 0.120646ms over 10000 iterations.
 - Optimised UUID from text:
-    Avarage of 0.109521ms over 10000 iterations.
+    Average of 0.109521ms over 10000 iterations.
 ```
 
 *The difference between `Binary UUID` and `Optimised UUID` when querying a big dataset of ~500k records.*
@@ -76,15 +76,15 @@ You'll immediately notice that this benchmark is much slower than the others, ev
 
 ```
 - Normal ID:
-    Avarage of 0.072008ms over 10000 iterations.
+    Average of 0.072008ms over 10000 iterations.
 - Binary UUID:
-    Avarage of 0.113014ms over 10000 iterations.
+    Average of 0.113014ms over 10000 iterations.
 - Optimised UUID:
-    Avarage of 0.11051ms over 10000 iterations.
+    Average of 0.11051ms over 10000 iterations.
 - Optimised UUID from text:
-    Avarage of 0.105908ms over 10000 iterations.
+    Average of 0.105908ms over 10000 iterations.
 - Textual UUID:
-    Avarage of 96.298254ms over 100 iterations.
+    Average of 96.298254ms over 100 iterations.
 ```
 
 *VARCHAR `UUID`s are slow.*
