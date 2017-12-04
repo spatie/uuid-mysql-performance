@@ -65,7 +65,7 @@ class Benchmark extends DatabaseCommand
 
             $result = $benchmark->run();
 
-            $output->writeln("\t\tAvarage of {$result->getAverageInMilliSeconds()}ms over {$result->getIterations()} iterations.");
+            $output->writeln("\t\tAverage of {$result->getAverageInMilliSeconds()}ms over {$result->getIterations()} iterations.");
         }
 
         $output->writeln("\n<fg=green>Done</>");
